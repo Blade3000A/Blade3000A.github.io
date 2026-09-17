@@ -13,102 +13,169 @@
   :root{
     --page:#ffffff;
     --band:#f2f5fa;
+    --card:#ffffff;
+    --viz-bg:#f6f8fc;
     --ink:#1f2733;
     --muted:#5a6675;
     --navy:#2f4270;
     --accent:#5b7bb5;
     --rule:#dfe5ee;
     --chip-ink:#ffffff;
-    --shadow:0 1px 2px rgba(31,39,51,.05);
+    --panel:#f7f9fc;
+    --shadow:0 1px 2px rgba(31,39,51,.06);
+    --shadow-lift:0 14px 34px rgba(31,39,51,.13);
+    --q1:#4f7fd0;   /* quantum blue  */
+    --q2:#42a88a;   /* green spider  */
+    --q3:#d2565f;   /* red spider / error */
+    --q4:#e0a339;   /* amber         */
   }
   @media (prefers-color-scheme: dark){
     :root{
       --page:#11151c;
       --band:#171d27;
+      --card:#161c25;
+      --viz-bg:#121821;
       --ink:#e6eaf1;
       --muted:#a3aebd;
       --navy:#8fa9db;
       --accent:#7d9bd1;
       --rule:#252d3a;
       --chip-ink:#0e1218;
-      --shadow:0 1px 2px rgba(0,0,0,.4);
+      --panel:#141a23;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+      --shadow-lift:0 14px 34px rgba(0,0,0,.55);
+      --q1:#6f9ae6;
+      --q2:#54c2a1;
+      --q3:#e4757e;
+      --q4:#edb95a;
     }
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{
-    margin:0;
-    background:var(--page);
-    color:var(--ink);
+    margin:0;background:var(--page);color:var(--ink);
     font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   }
-  .wrap{max-width:860px;margin:0 auto;padding:0 28px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 28px}
 
-  /* ---------- masthead ---------- */
-  header{background:var(--band);border-bottom:3px solid var(--navy);padding:56px 0 44px}
+  /* ---------------- masthead ---------------- */
+  header{background:var(--band);border-bottom:3px solid var(--navy);padding:54px 0 42px}
   .masthead{display:flex;gap:28px;align-items:flex-start;justify-content:space-between}
-  h1{
-    margin:0;font-size:clamp(32px,6vw,44px);line-height:1.05;
-    letter-spacing:.02em;font-weight:800;color:var(--ink);
-  }
-  .role{
-    margin:6px 0 0;font-size:clamp(14px,2.4vw,17px);letter-spacing:.14em;
-    text-transform:uppercase;color:var(--accent);font-weight:600;
-  }
-  .intro{margin:20px 0 0;max-width:34em;color:var(--ink)}
-  .mark{flex:0 0 auto;margin-top:4px}
-  .mark svg{display:block;width:88px;height:88px}
-  @media (max-width:560px){ .mark{display:none} }
+  h1{margin:0;font-size:clamp(32px,6vw,44px);line-height:1.05;letter-spacing:.02em;font-weight:800}
+  .role{margin:6px 0 0;font-size:clamp(14px,2.4vw,17px);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .intro{margin:20px 0 0;max-width:34em}
+  .mark{flex:0 0 auto;margin-top:4px;color:var(--accent)}
+  .mark svg{display:block;width:96px;height:96px}
+  .orbit{transform-box:fill-box;transform-origin:center;animation:spin 14s linear infinite}
+  .orbit.rev{animation-duration:22s;animation-direction:reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (max-width:600px){ .mark{display:none} }
 
-  /* ---------- work list ---------- */
-  main{padding:44px 0 8px}
-  h2{
-    margin:0 0 4px;font-size:15px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--muted);font-weight:700;
+  /* ---------------- section head ---------------- */
+  main{padding:40px 0 8px}
+  h2{margin:0;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .hint{margin:8px 0 26px;color:var(--muted);font-size:14.5px}
+  .hint b{color:var(--ink);font-weight:600}
+
+  /* ---------------- grid ---------------- */
+  .grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+  .card{
+    position:relative;background:var(--card);border:1px solid var(--rule);border-radius:12px;
+    overflow:hidden;box-shadow:var(--shadow);cursor:pointer;
+    transition:transform .28s cubic-bezier(.2,.7,.3,1),box-shadow .28s,border-color .28s;
   }
-  .work{list-style:none;margin:0;padding:0}
-  .work li{border-top:1px solid var(--rule);padding:26px 0 24px}
-  .work li:first-child{border-top:none;padding-top:18px}
+  .card:hover,.card:focus-visible,.card.open{
+    transform:translateY(-4px);box-shadow:var(--shadow-lift);border-color:var(--accent);
+  }
+  .card:focus{outline:none}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  .viz{position:relative;overflow:hidden;background:var(--viz-bg);border-bottom:1px solid var(--rule);aspect-ratio:16/8.5;min-height:196px}
+  .viz svg{display:block;width:100%;height:100%}
+
+  .bar{display:flex;flex-direction:column;gap:9px;padding:16px 18px 18px}
   .chip{
-    display:inline-block;background:var(--navy);color:var(--chip-ink);
-    font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
-    padding:5px 13px;border-radius:999px;box-shadow:var(--shadow);
+    align-self:flex-start;background:var(--navy);color:var(--chip-ink);
+    font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
   }
-  h3{margin:13px 0 8px;font-size:clamp(19px,3.4vw,23px);line-height:1.25;font-weight:700}
-  h3 a{color:inherit;text-decoration:none}
-  h3 a:hover{color:var(--navy);text-decoration:underline;text-underline-offset:3px}
-  .desc{margin:0 0 12px;color:var(--muted)}
+  h3{margin:0;font-size:18.5px;line-height:1.3;font-weight:700}
+  .more{
+    display:flex;align-items:center;gap:6px;margin-top:2px;
+    font-size:12.5px;color:var(--muted);letter-spacing:.03em;
+  }
+  .more svg{width:13px;height:13px;transition:transform .3s}
+  .card:hover .more svg,.card.open .more svg{transform:translateY(2px)}
+
+  /* ---------------- reveal panel ---------------- */
+  .panel{
+    position:absolute;inset:0;background:var(--panel);
+    padding:20px;display:flex;flex-direction:column;justify-content:center;gap:13px;
+    overflow-y:auto;overscroll-behavior:contain;
+    transform:translateY(101%);pointer-events:none;
+    transition:transform .34s cubic-bezier(.2,.7,.3,1);
+  }
+  .card:hover .panel,.card:focus-within .panel,.card.open .panel{
+    transform:translateY(0);pointer-events:auto;
+  }
+  .panel p{margin:0;font-size:14.5px;line-height:1.6;color:var(--muted)}
   .repo{
-    display:inline-flex;align-items:center;gap:8px;
-    color:var(--navy);font-weight:600;font-size:15px;text-decoration:none;
-    word-break:break-word;
+    display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+    color:var(--navy);font-weight:600;font-size:14px;text-decoration:none;word-break:break-word;
   }
   .repo::before{content:"→";color:var(--accent)}
   .repo:hover{text-decoration:underline;text-underline-offset:3px}
 
-  /* ---------- contact ---------- */
-  .contact{
-    margin:40px 0 0;padding:26px 28px;background:var(--band);
-    border-left:3px solid var(--navy);border-radius:4px;
-  }
+  /* ---------------- contact ---------------- */
+  .contact{margin:38px 0 0;padding:26px 28px;background:var(--band);border-left:3px solid var(--navy);border-radius:4px}
   .contact h2{margin-bottom:14px}
   .links{display:flex;flex-wrap:wrap;gap:12px 32px;margin:0;padding:0;list-style:none}
-  .links a{
-    display:inline-flex;align-items:center;gap:10px;
-    color:var(--navy);font-weight:600;text-decoration:none;word-break:break-word;
-  }
+  .links a{display:inline-flex;align-items:center;gap:10px;color:var(--navy);font-weight:600;text-decoration:none;word-break:break-word}
   .links a:hover{text-decoration:underline;text-underline-offset:3px}
   .links svg{flex:0 0 auto;width:18px;height:18px;color:var(--accent)}
 
-  /* ---------- footer ---------- */
   footer{
-    margin-top:34px;border-top:1px solid var(--rule);
-    padding:22px 0 44px;color:var(--muted);font-size:14px;
-    display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;align-items:center;
+    margin-top:34px;border-top:1px solid var(--rule);padding:22px 0 44px;
+    color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 18px;
+    justify-content:space-between;align-items:center;
   }
   footer a{color:var(--navy);text-decoration:none;font-weight:600}
   footer a:hover{text-decoration:underline;text-underline-offset:3px}
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+  /* ---------------- animation primitives ---------------- */
+  .flow{animation:flow 3.2s linear infinite}
+  @keyframes flow{
+    0%{transform:translateX(0);opacity:0}
+    8%{opacity:1} 88%{opacity:1}
+    100%{transform:translateX(196px);opacity:0}
+  }
+  .tick{transform-box:fill-box;transform-origin:center;animation:tick 3.2s steps(1) infinite}
+  @keyframes tick{0%,49%{transform:rotate(0)}50%,100%{transform:rotate(45deg)}}
+  .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:1;transform:scale(1.12)}}
+  .ring{transform-box:fill-box;transform-origin:center;animation:ring 2.6s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.25);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+  .sweep{transform-box:fill-box;transform-origin:center;animation:sweep 5s ease-in-out infinite}
+  @keyframes sweep{0%,100%{transform:rotate(-16deg)}50%{transform:rotate(16deg)}}
+  .dial{transform-box:fill-box;transform-origin:bottom center;animation:dial 3.4s ease-in-out infinite}
+  @keyframes dial{0%,100%{transform:rotate(-38deg)}50%{transform:rotate(38deg)}}
+  .dial.b{animation-duration:3.4s;animation-delay:-1.7s}
+  .blink{animation:blink 2.6s ease-in-out infinite}
+  @keyframes blink{0%,62%,100%{opacity:.3}72%,88%{opacity:1}}
+  .fuse{animation:fuse 4.4s ease-in-out infinite}
+  @keyframes fuse{0%,22%{transform:translateX(0);opacity:1}42%,70%{transform:translateX(-34px);opacity:0}100%{transform:translateX(0);opacity:1}}
+  .grow{transform-box:fill-box;transform-origin:center;animation:grow 4.4s ease-in-out infinite}
+  @keyframes grow{0%,22%{transform:scale(1)}42%,70%{transform:scale(1.35)}100%{transform:scale(1)}}
+  .dim{animation:dim 4.4s ease-in-out infinite}
+  @keyframes dim{0%,22%{opacity:1}42%,70%{opacity:.12}100%{opacity:1}}
+  .drift{animation:drift 3.6s ease-in-out infinite}
+  @keyframes drift{0%,100%{opacity:.35}50%{opacity:1}}
+  .lbl{font:600 11px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--muted);letter-spacing:.06em}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  }
 </style>
 </head>
 <body>
@@ -125,11 +192,10 @@
       </p>
     </div>
     <div class="mark" aria-hidden="true">
-      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" style="color:var(--accent)">
-        <circle cx="50" cy="50" r="46" stroke-width="1.6"/>
-        <circle cx="50" cy="50" r="30" stroke-width="1.6"/>
-        <circle cx="50" cy="50" r="15" stroke-width="1.6"/>
-        <circle cx="50" cy="50" r="3.4" fill="currentColor" stroke="none"/>
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor">
+        <g class="orbit"><ellipse cx="50" cy="50" rx="46" ry="19" stroke-width="1.5"/><circle cx="96" cy="50" r="3.6" fill="currentColor" stroke="none"/></g>
+        <g class="orbit rev" transform="rotate(60 50 50)"><ellipse cx="50" cy="50" rx="46" ry="19" stroke-width="1.5"/><circle cx="4" cy="50" r="3.6" fill="currentColor" stroke="none"/></g>
+        <circle cx="50" cy="50" r="4.5" fill="currentColor" stroke="none"/>
       </svg>
     </div>
   </div>
@@ -137,69 +203,224 @@
 
 <main class="wrap">
   <h2>Selected work</h2>
-  <ul class="work">
+  <p class="hint"><b>Hover</b> a project — or tap on touch screens — to read what it does.</p>
 
-    <li>
-      <span class="chip">Multiclass QML</span>
-      <h3><a href="https://github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo">Beyond Built-in Multiclass — Binary VQC Decomposition on Iris</a></h3>
-      <p class="desc">
-        A quantum classification pipeline built on Qiskit's Variational Quantum Classifier,
-        redesigned to make more confident decisions on ambiguous cases. Three binary quantum
-        classifiers vote in parallel, and a second layer resolves any disagreement, with
-        classical baselines kept alongside for comparison.
-      </p>
-      <a class="repo" href="https://github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo">github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo</a>
-    </li>
+  <div class="grid">
 
-    <li>
-      <span class="chip">Quantum Cryptography</span>
-      <h3><a href="https://github.com/Blade3000A/BB84_QuNetSim">BB84 Quantum Key Distribution</a></h3>
-      <p class="desc">
-        A simulation of the BB84 protocol for secure key exchange, including an eavesdropper
-        positioned on the communication line. The project measures how reliably an
-        intercept-and-resend attack is detected as the eavesdropper's activity increases,
-        validating the protocol's core security guarantee.
-      </p>
-      <a class="repo" href="https://github.com/Blade3000A/BB84_QuNetSim">github.com/Blade3000A/BB84_QuNetSim</a>
-    </li>
+    <!-- ============ 1. Multiclass QML ============ -->
+    <article class="card" tabindex="0">
+      <div class="viz">
+        <svg viewBox="0 0 320 170" aria-label="Animation: data points being sorted into three classes by rotating decision boundaries">
+          <line x1="34" y1="140" x2="292" y2="140" stroke="var(--rule)" stroke-width="1.5"/>
+          <line x1="34" y1="140" x2="34" y2="26" stroke="var(--rule)" stroke-width="1.5"/>
+          <g class="sweep">
+            <line x1="60" y1="128" x2="270" y2="44" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 5" opacity=".75"/>
+          </g>
+          <g class="sweep" style="animation-delay:-2.5s">
+            <line x1="70" y1="40" x2="250" y2="132" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 5" opacity=".55"/>
+          </g>
+          <g fill="var(--q1)">
+            <circle cx="72" cy="112" r="5" class="pulse"/>
+            <circle cx="92" cy="124" r="5" class="pulse" style="animation-delay:-.4s"/>
+            <circle cx="60" cy="96" r="5" class="pulse" style="animation-delay:-.9s"/>
+            <circle cx="86" cy="98" r="5" class="pulse" style="animation-delay:-1.3s"/>
+          </g>
+          <g fill="var(--q2)">
+            <circle cx="158" cy="78" r="5" class="pulse" style="animation-delay:-.2s"/>
+            <circle cx="176" cy="92" r="5" class="pulse" style="animation-delay:-.7s"/>
+            <circle cx="146" cy="96" r="5" class="pulse" style="animation-delay:-1.1s"/>
+            <circle cx="170" cy="66" r="5" class="pulse" style="animation-delay:-1.6s"/>
+          </g>
+          <g fill="var(--q4)">
+            <circle cx="238" cy="54" r="5" class="pulse" style="animation-delay:-.5s"/>
+            <circle cx="256" cy="70" r="5" class="pulse" style="animation-delay:-1s"/>
+            <circle cx="228" cy="74" r="5" class="pulse" style="animation-delay:-1.4s"/>
+            <circle cx="252" cy="42" r="5" class="pulse" style="animation-delay:-1.9s"/>
+          </g>
+          <g transform="translate(34,150)">
+            <rect x="0" y="0" width="30" height="5" rx="2.5" fill="var(--q1)" class="drift"/>
+            <rect x="38" y="0" width="30" height="5" rx="2.5" fill="var(--q2)" class="drift" style="animation-delay:-1.2s"/>
+            <rect x="76" y="0" width="30" height="5" rx="2.5" fill="var(--q4)" class="drift" style="animation-delay:-2.4s"/>
+            <text x="120" y="6" class="lbl">3 binary VQCs vote</text>
+          </g>
+        </svg>
+              <div class="panel">
+        <p>A quantum classification pipeline built on Qiskit's Variational Quantum Classifier, redesigned to make more confident decisions on ambiguous cases. Three binary quantum classifiers vote in parallel, and a second layer resolves any disagreement, with classical baselines kept alongside for comparison.</p>
+        <a class="repo" href="https://github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo">github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo</a>
+        </div>
+      </div>
+      <div class="bar">
+        <span class="chip">Multiclass QML</span>
+        <h3>Beyond Built-in Multiclass — Binary VQC Decomposition on Iris</h3>
+        <span class="more">read more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+    </article>
 
-    <li>
-      <span class="chip">Quantum Nonlocality</span>
-      <h3><a href="https://github.com/Blade3000A/CHSH_QuNetSim">The CHSH Game</a></h3>
-      <p class="desc">
-        An implementation of the CHSH game, a cornerstone experiment in the study of quantum
-        nonlocality. The project compares the best possible classical strategy against an
-        entanglement-based quantum strategy, and demonstrates the latter exceeding the
-        classical limit exactly as theory predicts.
-      </p>
-      <a class="repo" href="https://github.com/Blade3000A/CHSH_QuNetSim">github.com/Blade3000A/CHSH_QuNetSim</a>
-    </li>
+    <!-- ============ 2. BB84 ============ -->
+    <article class="card" tabindex="0">
+      <div class="viz">
+        <svg viewBox="0 0 320 170" aria-label="Animation: polarised photons travelling from Alice to Bob through an eavesdropper that measures them">
+          <line x1="58" y1="86" x2="262" y2="86" stroke="var(--rule)" stroke-width="2"/>
+          <g transform="translate(64,86)">
+            <g class="flow"><g class="tick"><line x1="-6" y1="-6" x2="6" y2="6" stroke="var(--q1)" stroke-width="3" stroke-linecap="round"/></g><circle r="7" fill="none" stroke="var(--q1)" stroke-width="1.6" opacity=".55"/></g>
+            <g class="flow" style="animation-delay:-1.07s"><g class="tick" style="animation-delay:-1.07s"><line x1="-6" y1="-6" x2="6" y2="6" stroke="var(--q1)" stroke-width="3" stroke-linecap="round"/></g><circle r="7" fill="none" stroke="var(--q1)" stroke-width="1.6" opacity=".55"/></g>
+            <g class="flow" style="animation-delay:-2.13s"><g class="tick" style="animation-delay:-2.13s"><line x1="-6" y1="-6" x2="6" y2="6" stroke="var(--q3)" stroke-width="3" stroke-linecap="round"/></g><circle r="7" fill="none" stroke="var(--q3)" stroke-width="1.6" opacity=".55"/></g>
+          </g>
+          <circle cx="160" cy="86" r="13" fill="none" stroke="var(--q3)" stroke-width="1.6" class="ring"/>
+          <g>
+            <circle cx="46" cy="86" r="15" fill="var(--card)" stroke="var(--navy)" stroke-width="2"/>
+            <text x="46" y="90" text-anchor="middle" class="lbl" style="fill:var(--navy)">A</text>
+            <circle cx="160" cy="86" r="13" fill="var(--card)" stroke="var(--q3)" stroke-width="2" stroke-dasharray="3 3"/>
+            <text x="160" y="90" text-anchor="middle" class="lbl" style="fill:var(--q3)">E</text>
+            <circle cx="274" cy="86" r="15" fill="var(--card)" stroke="var(--navy)" stroke-width="2"/>
+            <text x="274" y="90" text-anchor="middle" class="lbl" style="fill:var(--navy)">B</text>
+          </g>
+          <text x="46" y="122" text-anchor="middle" class="lbl">alice</text>
+          <text x="160" y="118" text-anchor="middle" class="lbl" style="fill:var(--q3)">eve</text>
+          <text x="274" y="122" text-anchor="middle" class="lbl">bob</text>
+          <text x="160" y="40" text-anchor="middle" class="lbl blink" style="fill:var(--q3)">QBER ↑ 25%</text>
+        </svg>
+              <div class="panel">
+        <p>A simulation of the BB84 protocol for secure key exchange, including an eavesdropper positioned on the communication line. The project measures how reliably an intercept-and-resend attack is detected as the eavesdropper's activity increases, validating the protocol's core security guarantee.</p>
+        <a class="repo" href="https://github.com/Blade3000A/BB84_QuNetSim">github.com/Blade3000A/BB84_QuNetSim</a>
+        </div>
+      </div>
+      <div class="bar">
+        <span class="chip">Quantum Cryptography</span>
+        <h3>BB84 Quantum Key Distribution</h3>
+        <span class="more">read more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+    </article>
 
-    <li>
-      <span class="chip">Quantum Nonlocality</span>
-      <h3><a href="https://github.com/Blade3000A/GHZ_game_QuNetSim">The GHZ Game</a></h3>
-      <p class="desc">
-        An extension of the nonlocal-game framework to three players using a shared GHZ state.
-        Where classical strategies are limited to a 75% win rate, the quantum strategy
-        implemented here reaches a perfect score, offering a clear, reproducible demonstration
-        of quantum correlations with no classical equivalent.
-      </p>
-      <a class="repo" href="https://github.com/Blade3000A/GHZ_game_QuNetSim">github.com/Blade3000A/GHZ_game_QuNetSim</a>
-    </li>
+    <!-- ============ 3. CHSH ============ -->
+    <article class="card" tabindex="0">
+      <div class="viz">
+        <svg viewBox="0 0 320 170" aria-label="Animation: an entangled pair shared between two detectors whose measurement dials rotate independently">
+          <path d="M96 86 C 126 62, 194 62, 224 86 C 194 110, 126 110, 96 86" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="4 6" class="drift"/>
+          <circle cx="160" cy="86" r="6" fill="var(--accent)" class="pulse"/>
+          <g transform="translate(70,86)">
+            <path d="M-28 0 A 28 28 0 0 1 28 0" fill="none" stroke="var(--rule)" stroke-width="2"/>
+            <line x1="0" y1="0" x2="0" y2="-26" stroke="var(--q1)" stroke-width="3" stroke-linecap="round" class="dial"/>
+            <circle r="4" fill="var(--q1)"/>
+            <text y="24" text-anchor="middle" class="lbl">alice · x</text>
+          </g>
+          <g transform="translate(250,86)">
+            <path d="M-28 0 A 28 28 0 0 1 28 0" fill="none" stroke="var(--rule)" stroke-width="2"/>
+            <line x1="0" y1="0" x2="0" y2="-26" stroke="var(--q2)" stroke-width="3" stroke-linecap="round" class="dial b"/>
+            <circle r="4" fill="var(--q2)"/>
+            <text y="24" text-anchor="middle" class="lbl">bob · y</text>
+          </g>
+          <g transform="translate(160,140)">
+            <rect x="-56" y="-13" width="112" height="24" rx="12" fill="none" stroke="var(--rule)" stroke-width="1.5"/>
+            <rect x="-56" y="-13" width="84" height="24" rx="12" fill="var(--q2)" opacity=".2"/>
+            <line x1="28" y1="-15" x2="28" y2="13" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <text x="0" y="4" text-anchor="middle" class="lbl blink" style="fill:var(--q2)">85.4% &gt; 75%</text>
+          </g>
+          <text x="160" y="42" text-anchor="middle" class="lbl">shared EPR pair</text>
+        </svg>
+              <div class="panel">
+        <p>An implementation of the CHSH game, a cornerstone experiment in the study of quantum nonlocality. The project compares the best possible classical strategy against an entanglement-based quantum strategy, and demonstrates the latter exceeding the classical limit exactly as theory predicts.</p>
+        <a class="repo" href="https://github.com/Blade3000A/CHSH_QuNetSim">github.com/Blade3000A/CHSH_QuNetSim</a>
+        </div>
+      </div>
+      <div class="bar">
+        <span class="chip">Quantum Nonlocality</span>
+        <h3>The CHSH Game</h3>
+        <span class="more">read more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+    </article>
 
-    <li>
-      <span class="chip">Circuit Optimization</span>
-      <h3><a href="https://github.com/Blade3000A/zx-calculus-pennylane">Quantum Circuit Optimization with ZX-Calculus</a></h3>
-      <p class="desc">
-        A PennyLane-to-PyZX pipeline that rewrites a quantum circuit as a ZX-diagram, simplifies
-        it using graph-theoretic rewrite rules, and extracts an optimized circuit back out. On the
-        notebook's benchmark circuit, gate count drops from 63 to 37 and T-count from 28 to 8,
-        with output equivalence verified at each step.
-      </p>
-      <a class="repo" href="https://github.com/Blade3000A/zx-calculus-pennylane">github.com/Blade3000A/zx-calculus-pennylane</a>
-    </li>
+    <!-- ============ 4. GHZ ============ -->
+    <article class="card" tabindex="0">
+      <div class="viz">
+        <svg viewBox="0 0 320 170" aria-label="Animation: a referee at the centre of a star distributing GHZ shares to three players that flash in unison">
+          <g stroke="var(--rule)" stroke-width="2">
+            <line x1="160" y1="80" x2="160" y2="34"/>
+            <line x1="160" y1="80" x2="88" y2="124"/>
+            <line x1="160" y1="80" x2="232" y2="124"/>
+          </g>
+          <circle cx="160" cy="80" r="16" fill="none" stroke="var(--accent)" stroke-width="2" class="ring"/>
+          <circle cx="160" cy="80" r="16" fill="none" stroke="var(--accent)" stroke-width="2" class="ring" style="animation-delay:-1.3s"/>
+          <circle cx="160" cy="80" r="15" fill="var(--card)" stroke="var(--navy)" stroke-width="2"/>
+          <text x="160" y="84" text-anchor="middle" class="lbl" style="fill:var(--navy)">R</text>
+          <g class="blink">
+            <circle cx="160" cy="34" r="13" fill="var(--q2)" opacity=".2"/>
+            <circle cx="88" cy="124" r="13" fill="var(--q2)" opacity=".2"/>
+            <circle cx="232" cy="124" r="13" fill="var(--q2)" opacity=".2"/>
+          </g>
+          <g fill="var(--card)" stroke="var(--q2)" stroke-width="2">
+            <circle cx="160" cy="34" r="13"/><circle cx="88" cy="124" r="13"/><circle cx="232" cy="124" r="13"/>
+          </g>
+          <g class="lbl" style="fill:var(--q2)" text-anchor="middle">
+            <text x="160" y="38">A</text><text x="88" y="128">B</text><text x="232" y="128">C</text>
+          </g>
+          <text x="160" y="160" text-anchor="middle" class="lbl blink" style="fill:var(--q2)">a ⊕ b ⊕ c — always correct</text>
+          <text x="248" y="52" text-anchor="middle" class="lbl">|000⟩+|111⟩</text>
+        </svg>
+              <div class="panel">
+        <p>An extension of the nonlocal-game framework to three players using a shared GHZ state. Where classical strategies are limited to a 75% win rate, the quantum strategy implemented here reaches a perfect score, offering a clear, reproducible demonstration of quantum correlations with no classical equivalent.</p>
+        <a class="repo" href="https://github.com/Blade3000A/GHZ_game_QuNetSim">github.com/Blade3000A/GHZ_game_QuNetSim</a>
+        </div>
+      </div>
+      <div class="bar">
+        <span class="chip">Quantum Nonlocality</span>
+        <h3>The GHZ Game</h3>
+        <span class="more">read more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+    </article>
 
-  </ul>
+    <!-- ============ 5. ZX-calculus ============ -->
+    <article class="card" tabindex="0">
+      <div class="viz">
+        <svg viewBox="0 0 320 170" aria-label="Animation: a ZX diagram whose green and red spiders fuse, shrinking the circuit">
+          <g stroke="var(--rule)" stroke-width="2" fill="none">
+            <path d="M28 56 H 96"/><path d="M28 112 H 96"/>
+            <path class="dim" d="M96 56 H 150"/>
+            <path class="dim" d="M96 112 H 150"/>
+            <path d="M150 56 C 186 56, 186 112, 222 112"/>
+            <path d="M150 112 C 186 112, 186 56, 222 56"/>
+            <path d="M222 56 H 292"/><path d="M222 112 H 292"/>
+          </g>
+          <g class="fuse">
+            <circle cx="96" cy="56" r="11" fill="var(--q2)"/>
+            <circle cx="96" cy="112" r="11" fill="var(--q3)"/>
+          </g>
+          <g class="grow">
+            <circle cx="150" cy="56" r="11" fill="var(--q2)"/>
+            <circle cx="150" cy="112" r="11" fill="var(--q3)"/>
+          </g>
+          <circle cx="222" cy="56" r="11" fill="var(--q3)"/>
+          <circle cx="222" cy="112" r="11" fill="var(--q2)"/>
+          <g class="lbl" text-anchor="middle" style="fill:var(--page)">
+            <text class="grow" x="150" y="60">α</text>
+            <text class="grow" x="150" y="116">β</text>
+          </g>
+          <text x="160" y="150" text-anchor="middle" class="lbl blink" style="fill:var(--accent)">63 gates → 37 · T-count 28 → 8</text>
+          <text x="160" y="26" text-anchor="middle" class="lbl">spider fusion</text>
+        </svg>
+              <div class="panel">
+        <p>A PennyLane-to-PyZX pipeline that rewrites a quantum circuit as a ZX-diagram, simplifies it using graph-theoretic rewrite rules, and extracts an optimized circuit back out. On the notebook's benchmark circuit, gate count drops from 63 to 37 and T-count from 28 to 8, with output equivalence verified at each step.</p>
+        <a class="repo" href="https://github.com/Blade3000A/zx-calculus-pennylane">github.com/Blade3000A/zx-calculus-pennylane</a>
+        </div>
+      </div>
+      <div class="bar">
+        <span class="chip">Circuit Optimization</span>
+        <h3>Quantum Circuit Optimization with ZX-Calculus</h3>
+        <span class="more">read more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+    </article>
+
+  </div>
 
   <section class="contact">
     <h2>Contact</h2>
@@ -207,8 +428,7 @@
       <li>
         <a href="mailto:am_er1991@yahoo.com">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/>
-            <path d="M3 7l9 6 9-6"/>
+            <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 7l9 6 9-6"/>
           </svg>
           am_er1991@yahoo.com
         </a>
@@ -216,9 +436,7 @@
       <li>
         <a href="mailto:amerfahed.abujoudeh@studio.unibo.it">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path d="M22 12a10 10 0 1 0-4 8"/>
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M16 8v5a3 3 0 0 0 6 0"/>
+            <path d="M22 12a10 10 0 1 0-4 8"/><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0"/>
           </svg>
           amerfahed.abujoudeh@studio.unibo.it
         </a>
@@ -239,6 +457,26 @@
   <span><a href="https://github.com/Blade3000A">github.com/Blade3000A</a></span>
   <span><a href="Blade3000A_Quantum_Developer_Portfolio.pdf">Download as PDF</a> · Quantum Software Portfolio</span>
 </footer>
+
+<script>
+  // Touch devices have no hover: tap a card to open it, tap elsewhere or Escape to close.
+  document.querySelectorAll('.card').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;           // let repo links through
+      var wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.card.open').forEach(function (c) { c.classList.remove('open'); });
+      if (!wasOpen) card.classList.add('open');
+    });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.card.open').forEach(function (c) { c.classList.remove('open'); });
+    }
+  });
+</script>
 
 </body>
 </html>
