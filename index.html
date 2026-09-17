@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blade3000A — Quantum Software Portfolio</title>
+<meta name="description" content="Quantum software developer. Selected work in quantum machine learning, quantum cryptography, nonlocal games and circuit optimization.">
+<meta property="og:title" content="Blade3000A — Quantum Software Portfolio">
+<meta property="og:description" content="Selected work in quantum machine learning, quantum cryptography, nonlocal games and circuit optimization.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%232f4270' stroke-width='2'/><circle cx='16' cy='16' r='7' fill='none' stroke='%232f4270' stroke-width='2'/><circle cx='16' cy='16' r='2' fill='%232f4270'/></svg>">
+<style>
+  :root{
+    --page:#ffffff;
+    --band:#f2f5fa;
+    --ink:#1f2733;
+    --muted:#5a6675;
+    --navy:#2f4270;
+    --accent:#5b7bb5;
+    --rule:#dfe5ee;
+    --chip-ink:#ffffff;
+    --shadow:0 1px 2px rgba(31,39,51,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --page:#11151c;
+      --band:#171d27;
+      --ink:#e6eaf1;
+      --muted:#a3aebd;
+      --navy:#8fa9db;
+      --accent:#7d9bd1;
+      --rule:#252d3a;
+      --chip-ink:#0e1218;
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--page);
+    color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 28px}
+
+  /* ---------- masthead ---------- */
+  header{background:var(--band);border-bottom:3px solid var(--navy);padding:56px 0 44px}
+  .masthead{display:flex;gap:28px;align-items:flex-start;justify-content:space-between}
+  h1{
+    margin:0;font-size:clamp(32px,6vw,44px);line-height:1.05;
+    letter-spacing:.02em;font-weight:800;color:var(--ink);
+  }
+  .role{
+    margin:6px 0 0;font-size:clamp(14px,2.4vw,17px);letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);font-weight:600;
+  }
+  .intro{margin:20px 0 0;max-width:34em;color:var(--ink)}
+  .mark{flex:0 0 auto;margin-top:4px}
+  .mark svg{display:block;width:88px;height:88px}
+  @media (max-width:560px){ .mark{display:none} }
+
+  /* ---------- work list ---------- */
+  main{padding:44px 0 8px}
+  h2{
+    margin:0 0 4px;font-size:15px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:700;
+  }
+  .work{list-style:none;margin:0;padding:0}
+  .work li{border-top:1px solid var(--rule);padding:26px 0 24px}
+  .work li:first-child{border-top:none;padding-top:18px}
+  .chip{
+    display:inline-block;background:var(--navy);color:var(--chip-ink);
+    font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+    padding:5px 13px;border-radius:999px;box-shadow:var(--shadow);
+  }
+  h3{margin:13px 0 8px;font-size:clamp(19px,3.4vw,23px);line-height:1.25;font-weight:700}
+  h3 a{color:inherit;text-decoration:none}
+  h3 a:hover{color:var(--navy);text-decoration:underline;text-underline-offset:3px}
+  .desc{margin:0 0 12px;color:var(--muted)}
+  .repo{
+    display:inline-flex;align-items:center;gap:8px;
+    color:var(--navy);font-weight:600;font-size:15px;text-decoration:none;
+    word-break:break-word;
+  }
+  .repo::before{content:"→";color:var(--accent)}
+  .repo:hover{text-decoration:underline;text-underline-offset:3px}
+
+  /* ---------- footer ---------- */
+  footer{
+    margin-top:34px;border-top:1px solid var(--rule);
+    padding:22px 0 44px;color:var(--muted);font-size:14px;
+    display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;align-items:center;
+  }
+  footer a{color:var(--navy);text-decoration:none;font-weight:600}
+  footer a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <div>
+      <h1>BLADE3000A</h1>
+      <p class="role">Quantum Software Developer</p>
+      <p class="intro">
+        I design and build software at the intersection of classical engineering and
+        quantum computing — translating concepts such as superposition, entanglement,
+        and quantum measurement into working, testable code.
+      </p>
+    </div>
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" style="color:var(--accent)">
+        <circle cx="50" cy="50" r="46" stroke-width="1.6"/>
+        <circle cx="50" cy="50" r="30" stroke-width="1.6"/>
+        <circle cx="50" cy="50" r="15" stroke-width="1.6"/>
+        <circle cx="50" cy="50" r="3.4" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>Selected work</h2>
+  <ul class="work">
+
+    <li>
+      <span class="chip">Multiclass QML</span>
+      <h3><a href="https://github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo">Beyond Built-in Multiclass — Binary VQC Decomposition on Iris</a></h3>
+      <p class="desc">
+        A quantum classification pipeline built on Qiskit's Variational Quantum Classifier,
+        redesigned to make more confident decisions on ambiguous cases. Three binary quantum
+        classifiers vote in parallel, and a second layer resolves any disagreement, with
+        classical baselines kept alongside for comparison.
+      </p>
+      <a class="repo" href="https://github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo">github.com/Blade3000A/qiskit-multiclass-vqc-ovr-ovo</a>
+    </li>
+
+    <li>
+      <span class="chip">Quantum Cryptography</span>
+      <h3><a href="https://github.com/Blade3000A/BB84_QuNetSim">BB84 Quantum Key Distribution</a></h3>
+      <p class="desc">
+        A simulation of the BB84 protocol for secure key exchange, including an eavesdropper
+        positioned on the communication line. The project measures how reliably an
+        intercept-and-resend attack is detected as the eavesdropper's activity increases,
+        validating the protocol's core security guarantee.
+      </p>
+      <a class="repo" href="https://github.com/Blade3000A/BB84_QuNetSim">github.com/Blade3000A/BB84_QuNetSim</a>
+    </li>
+
+    <li>
+      <span class="chip">Quantum Nonlocality</span>
+      <h3><a href="https://github.com/Blade3000A/CHSH_QuNetSim">The CHSH Game</a></h3>
+      <p class="desc">
+        An implementation of the CHSH game, a cornerstone experiment in the study of quantum
+        nonlocality. The project compares the best possible classical strategy against an
+        entanglement-based quantum strategy, and demonstrates the latter exceeding the
+        classical limit exactly as theory predicts.
+      </p>
+      <a class="repo" href="https://github.com/Blade3000A/CHSH_QuNetSim">github.com/Blade3000A/CHSH_QuNetSim</a>
+    </li>
+
+    <li>
+      <span class="chip">Quantum Nonlocality</span>
+      <h3><a href="https://github.com/Blade3000A/GHZ_game_QuNetSim">The GHZ Game</a></h3>
+      <p class="desc">
+        An extension of the nonlocal-game framework to three players using a shared GHZ state.
+        Where classical strategies are limited to a 75% win rate, the quantum strategy
+        implemented here reaches a perfect score, offering a clear, reproducible demonstration
+        of quantum correlations with no classical equivalent.
+      </p>
+      <a class="repo" href="https://github.com/Blade3000A/GHZ_game_QuNetSim">github.com/Blade3000A/GHZ_game_QuNetSim</a>
+    </li>
+
+    <li>
+      <span class="chip">Circuit Optimization</span>
+      <h3><a href="https://github.com/Blade3000A/zx-calculus-pennylane">Quantum Circuit Optimization with ZX-Calculus</a></h3>
+      <p class="desc">
+        A PennyLane-to-PyZX pipeline that rewrites a quantum circuit as a ZX-diagram, simplifies
+        it using graph-theoretic rewrite rules, and extracts an optimized circuit back out. On the
+        notebook's benchmark circuit, gate count drops from 63 to 37 and T-count from 28 to 8,
+        with output equivalence verified at each step.
+      </p>
+      <a class="repo" href="https://github.com/Blade3000A/zx-calculus-pennylane">github.com/Blade3000A/zx-calculus-pennylane</a>
+    </li>
+
+  </ul>
+</main>
+
+<footer class="wrap">
+  <span><a href="https://github.com/Blade3000A">github.com/Blade3000A</a></span>
+  <span><a href="Blade3000A_Quantum_Developer_Portfolio.pdf">Download as PDF</a> · Quantum Software Portfolio</span>
+</footer>
+
+</body>
+</html>
